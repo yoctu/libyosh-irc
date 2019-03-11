@@ -50,7 +50,7 @@ Irc::send::privMsg(){
 
     Irc::connect
 
-    echo "PRIVMSG $chan $msg" >&${IRCCONNECTION[1]}
+    echo "PRIVMSG $chan :$msg" >&${IRCCONNECTION[1]}
 }
 
 Irc::join(){
@@ -66,7 +66,7 @@ Irc::cli::bot::set::command(){
     [private] args="${*:2}"
 
     IRC['bot':'config':'command':"$command"]="$args"
-    echo "$command created!"
+    printf '%s' "$command created!"
 }
 
 Irc::cli::bot::unset::command(){
@@ -131,7 +131,7 @@ Irc::cli::bot::main(){
                 continue
             fi
 
-            Irc::send::privMsg "$msg_channel" "$msg_user: $(${IRC['bot':'config':'command':"${msg_command[0]}"]} ${msg_command[*]:1})"
+            Irc::send::privMsg "$msg_channel" "$msg_user: $(${IRC['bot':'config':'command':${msg_command[0]}]} ${msg_command[*]:1})"
             ${IRC['bot':'config':'command':${msg_command[0]}]} ${msg_command[*]:1}
         fi
     
